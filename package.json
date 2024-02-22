@@ -1,0 +1,16 @@
+{
+  "name": "edulearn",
+  "version": "1.0.0",
+  "description": "A major EdTech project, developed on MERN stack",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "javascript",
+    "MERN",
+    "EduLearn"
+  ],
+  "author": "Shuaib Ahamad",
+  "license": "ISC"
+}
