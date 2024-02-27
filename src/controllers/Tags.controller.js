@@ -1,7 +1,7 @@
 const Tag = require("../models/Tags.models")
 
 //create handler function of Tag
-
+//CREATE TAG
 exports.createTag = async (req, res) => {
     try {
         //fetch data (name, description)
@@ -29,6 +29,24 @@ exports.createTag = async (req, res) => {
         return res.status(500).json({
             success: false,
             message: "Error occured while creating tag"
+        })
+    }
+}
+
+
+//getAllTags Handler Function
+exports.showAllTags = async (req, res) => {
+    try {
+        const allTags = await Tag.find({}, {name: true, description: true});
+        return res.status(200).json({
+            success: true,
+            message: "All tags returned successfully",
+            allTags,
+        })
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: "Something went wrong while getting all tags"
         })
     }
 }
