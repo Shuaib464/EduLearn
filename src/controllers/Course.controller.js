@@ -123,3 +123,53 @@ exports.showAllCourses = async(req, res) => {
         })
     }
 }
+
+
+//getCourseDetails   (retrieve whole course details including instructor, sections, subsections)
+exports.getCourseDetails = async (req, res) => {
+    try {
+        //get id 
+        const {courseId} = req.body;
+        //find course details
+        const courseDetails = await Course.find(
+                                    {_id: courseId})
+                                    .populate(
+                                        {
+                                            path: "instructor",
+                                            populate: {
+                                                path: "additionalDetails",
+                                            }
+                                        }
+                                    )
+                                    .populate("category")
+                                    .populate(
+                                        {
+                                            path: "courseContent",
+                                            populate: {
+                                                path: "subSection",
+                                            },
+                                        }
+                                    )
+                                    .exec();
+            // validation
+            if(!courseDetails) {
+                return res.status(400).json({
+                    success: false,
+                    message: `Could not find the course with ${courseId}`,
+                })
+            }
+
+            //return response
+            return res.status(200).json({
+                success: true,
+                message: "Course details fetched successfully",
+                courseDetails,
+            })
+    } catch (error) {
+        console.log(error.message);
+        return res.status(500).json({
+            success: false,
+            message: error.message,
+        })
+    }
+}
